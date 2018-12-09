@@ -61,4 +61,16 @@ void Fabric::SaveToFile(const std::string &filename) {
   }
 }
 
+bool Fabric::IsNotShared(const Claim& c) {
+  auto row_begin = fields_.begin() + c.y;
+  auto row_end = fields_.begin() + c.y + c.rows;
+  return std::all_of(row_begin, row_end, [&c](const auto &row) {
+    auto col_begin = row.begin() + c.x;
+    auto col_end = row.begin() + c.x + c.cols;
+    return std::none_of(col_begin, col_end, [](const auto state) {
+      return state == BoxState::Overlapping;
+    });
+  });
+}
+
 BoxState &Fabric::Get(size_t x, size_t y) { return fields_[y][x]; }

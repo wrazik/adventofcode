@@ -12,6 +12,7 @@ public:
 
   static char ToChar(const BoxState &s);
   static std::string RowToString(const std::array<BoxState, SIZE> &row);
+  bool IsNotShared(const Claim& c);
   void SaveToFile(const std::string &filename);
 	void AddClaim(const Claim& c);
   size_t Count(const BoxState &s) const;

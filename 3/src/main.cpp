@@ -21,9 +21,16 @@ int main(int argc, char** argv) {
   }
 
   Fabric f;
+	std::vector<Claim> claims;
   for (const auto &line : lines) {
     Claim c = Parser::ParseClaim(line);
-    f.AddClaim(c);
+		claims.push_back(std::move(c));
+    f.AddClaim(claims.back());
   }
-  std::cout << f.Count(BoxState::Overlapping) << "\n";
+  std::cout << "overlapping count: " << f.Count(BoxState::Overlapping) << "\n";
+  for(const auto claim: claims) {
+    if (f.IsNotShared(claim)) {
+      std::cout << "id: #" << claim.id << " is not shared with any other claim!\n";
+    }
+  }
 }
