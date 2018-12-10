@@ -27,18 +27,18 @@ void Guard::Awake(uint32_t timestamp) {
   last_timestamp_ = timestamp;
 }
 
-std::pair<float, uint32_t> Guard::GetMostPropableHour() const {
-  std::array<double, TIMESIZE> probability;
-  const uint32_t total = diary_.size();
-
+std::pair<uint32_t, uint32_t> Guard::GetMostFrequentHour() const {
+  std::array<uint32_t, TIMESIZE> quantity;
+  quantity.fill(0);
   for (uint32_t i = 0; i < TIMESIZE; ++i) {
-    const size_t count =
+    auto count =
         std::count_if(diary_.begin(), diary_.end(),
                       [i](const auto &row) { return row[i] == State::Sleep; });
-    probability[i] = static_cast<float>(count) / total;
+    quantity[i] = count;
   }
-  auto max = std::max_element(probability.begin(), probability.end());
-  return {*max, std::distance(probability.begin(), max)};
+
+  auto max = std::max_element(quantity.begin(), quantity.end());
+  return {*max, std::distance(quantity.begin(), max)};
 }
 
 uint32_t Guard::CountSleepingTime() const {
@@ -53,6 +53,7 @@ void Guard::BeginShift() {
   day_.fill(State::Awake);
   diary_.push_back(std::move(day_));
 }
+
 void Guard::Print() const{
   int counter = 0;
   std::cout << "\t";

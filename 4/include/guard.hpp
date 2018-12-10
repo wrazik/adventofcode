@@ -12,9 +12,9 @@ public:
   void Awake(uint32_t timestamp);
   void BeginShift();
 
-  std::pair<float, uint32_t> GetMostPropableHour() const;
+  std::pair<uint32_t, uint32_t> GetMostFrequentHour() const ;
   uint32_t CountSleepingTime() const;
-  void Print() const;
+  void Print() const ;
 private:
   std::vector<std::array<State, TIMESIZE>> diary_;
   State current_state_ = State::Awake;

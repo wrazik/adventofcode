@@ -54,21 +54,20 @@ std::pair<uint32_t, Guard> Parser::GetMostSleeping() {
       });
 }
 
-std::pair<uint32_t, uint32_t> Parser::GetMostPropableHour() {
+std::pair<uint32_t, uint32_t> Parser::GetMostFrequentHour() {
   uint32_t best_hour = 0;
   const auto [id, guard] = *std::max_element(
       guards_.begin(), guards_.end(),
       [&best_hour](const auto &lhs, const auto &rhs) mutable {
-        const auto [lhs_probability, lhs_timestamp] = lhs.second.GetMostPropableHour();
-        const auto [rhs_probability, rhs_timestamp] = rhs.second.GetMostPropableHour();
-        if(lhs_probability < rhs_probability) {
+        const auto [lhs_count, lhs_timestamp] = lhs.second.GetMostFrequentHour();
+        const auto [rhs_count, rhs_timestamp] = rhs.second.GetMostFrequentHour();
+        if(lhs_count < rhs_count) {
           best_hour = rhs_timestamp;
           return true;
         }
         best_hour = lhs_timestamp;
         return false;
       });
-
-  guard.Print();
   return {id, best_hour};
 }
+

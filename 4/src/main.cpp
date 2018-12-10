@@ -25,6 +25,10 @@ int main(int argc, char** argv) {
 		p.AddLine(line);
 	}
   const auto [id, guard] = p.GetMostSleeping();
-  const auto [prop, hour] = guard.GetMostPropableHour();
-  std::cout << "id: " << id << " hour: " << hour << ", answer: " << hour*id << "\n";
+  const auto [count, hour] = guard.GetMostFrequentHour();
+  std::cout << "Strategy1: id: " << id << " hour: " << hour << ", answer: " << hour*id << "\n";
+
+
+  const auto [s2_id, s2_hour] = p.GetMostFrequentHour();
+  std::cout << "Strategy2: id: " << s2_id << " hour: " << s2_hour << ", answer: " << s2_hour*s2_id << "\n";
 }

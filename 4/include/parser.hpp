@@ -7,7 +7,7 @@
 class Parser {
 public:
   void AddLine(const std::string &line);
-  std::pair<uint32_t, uint32_t> GetMostPropableHour();
+  std::pair<uint32_t, uint32_t> GetMostFrequentHour();
   std::pair<uint32_t, Guard> GetMostSleeping();
 
 private:
